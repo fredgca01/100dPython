@@ -29,5 +29,6 @@ second_digit = number[1]
 sum = int(first_digit)+int(second_digit)
 print(str(sum))
 
-
+# (); **; */; +-;
 print (3 * 3 + 3 / 3 - 3)
+print (3 * (3 + 3) / 3 - 3)
