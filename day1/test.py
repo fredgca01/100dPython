@@ -1,8 +1,0 @@
-print("hello world\n")
-print(len("Frederic"))
-a = ("hello world\n")
-print (a *2)
-print(a.title())
-print(a.split())
-name = input("What is your name ?")
-print(name)
