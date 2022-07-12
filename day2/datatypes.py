@@ -32,3 +32,10 @@ print(str(sum))
 # (); **; */; +-;
 print (3 * 3 + 3 / 3 - 3)
 print (3 * (3 + 3) / 3 - 3)
+
+print(8/3)
+print(int(8/3))
+print(round(8/3))
+print(round(8/3,2))
+
+print(f"Your name has {new_nb} characters")
