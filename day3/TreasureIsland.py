@@ -39,10 +39,11 @@ if(way=="left"):
   jgs /       '----'       \
     ''')
 
-way = input("you are behind a lake with an island in the middle. Do you want to wait ot ot swim ?")
-if(way=="swim"):
-    print("You're dead")
-    print('''
+else:
+    way = input("you are behind a lake with an island in the middle. Do you want to wait ot ot swim ?")
+    if(way=="swim"):
+        print("You're dead")
+        print('''
                                  ,-
                                ,'::|
                               /::::|
@@ -57,4 +58,6 @@ if(way=="swim"):
                   \. /    `-._   `.""-----.,-..::(--"".\""`.  `:\
                    `P         `-._ \          `-:\          `. `:\
                                    ""            "            `-._)  -Seal
-    ''')
+        ''')
+    else:
+        print("You find the treasure !!!")
