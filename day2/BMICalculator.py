@@ -1,6 +1,3 @@
-from tkinter import BitmapImage
-
-
 height = input("enter your height (m): ")
 weight = input("enter your weight (kg): ")
 
