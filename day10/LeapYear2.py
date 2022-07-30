@@ -34,6 +34,7 @@ def daysInMonth(year,month):
         return month_days[month-1]
 
 def isLeap(year):
+    """Return True if the year given in parameter is a Leap year"""
     if(year %4 == 0):
         if(year%100==0):
             if(year%400==0):
@@ -48,6 +49,6 @@ def isLeap(year):
 print("I'll tell you how many days for a given month and a given year")
 year = int(input("What year ? "))
 month = int(input("What month ?"))
-print(f"There is {daysInMonth(year,month)} for the month {month} in {year}")
+print(f"There is {daysInMonth(year,month)} days for the month {month} in {year}")
 
 
