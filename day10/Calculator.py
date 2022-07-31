@@ -30,6 +30,7 @@ print("Welcome to the calculator\n")
 
 
 while True:
+    print("Ready for a new calcul\n")
     num1 = float(input("Give your first number: "))
     operation = input("What is the operation you want to apply ? (+,/,*,-): ")
     num2 = float(input("Give your second number: "))
