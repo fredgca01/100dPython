@@ -1,4 +1,4 @@
-Welcome to the 100 Days of Code - The Complete Python Pro Bootcamp, the only course you need to learn to code with Python. With over 500,000 5 STAR reviews and a 4.8 average, my courses are some of the HIGHEST RATED courses in the history of Udemy!  
+<!-- Welcome to the 100 Days of Code - The Complete Python Pro Bootcamp, the only course you need to learn to code with Python. With over 500,000 5 STAR reviews and a 4.8 average, my courses are some of the HIGHEST RATED courses in the history of Udemy!  
 
 100 days, 1 hour per day, learn to build 1 project per day, this is how you master Python.
 
@@ -128,45 +128,6 @@ You'll also build a portfolio of 100 projects that you can show off to any poten
 
     and much much more!
 
-Sign up today, and look forward to:
-
-    Video Lectures
-
-    Code Challenges and Exercises
-
-    Fully Fledged Projects
-
-    Quizzes
-
-    Programming Resources and Cheatsheets
-
-    Downloads
-
-    Our best selling 12 Rules to Learn to Code eBook
-
-    $12,000+ Python Pro Bootcamp course materials and curriculum
-
-
-Don't just take my word for it, check out what existing students have to say about my courses:
-
-"Angela is just incredible, awesome and just fantastic in this course. I've never had such an instructor; detailed in every aspect of the course, gives precise explanations, gives you the anxiety to learn etc. She's got that ability to make fun while explaining things for better understanding. I really love this course." - Ekeu MonkamUlrich
-
-"Angela is very thorough without ever being boring. I've taken MANY online courses in my life including my Bachelors and Masters degrees. She is by far the best instructor I've ever had. This course is packed with thousands of dollars worth of great instruction, and paced well enough for anyone to pick coding up and run with it- Thank you!" - J Carlucci
-
-"Love the way Angela explains things. Easy to follow and full of logic. I can say she must spend a lot of energy creating this great course. Thank you and I recommend it to all who's interested in coding!" - Yiqing Zheng
-
-"So far (on my third day) this course has taught me more than I was able to learn in multiple other programming courses. This course is clearly outlined and builds upon itself gradually in an easy to understand way." - Normal Ramsey
-
-"It's a different approach to teaching Web Development. I like that you are given everything possible to succeed from the onset." - Ronick Thomas
-
-The tutor is simply AMAZING, by far the best tutor I have ever had. I would give her 10 stars out of 5. She is not just punching the code and talking to herself, but she is actually explaining things. She keeps on giving really useful hints and she will give you a great load of other references. I always knew what I was doing and why I was doing it. All the extra challenges have just made me remember and understand things better. - Peter Dlugos
-
-
-
-REMEMBER… I'm so confident that you'll love this course that we're offering a FULL money-back guarantee for 30 days! So it's a complete no-brainer, sign up today with ZERO risk and EVERYTHING to gain.
-
-So what are you waiting for? Click the buy now button and join the world's highest-rated development course.
-Ce que vous allez apprendre
 
     You will master the Python programming language by building 100 unique projects over 100 days.
     You will learn automation, game, app and web development, data science and machine learning all using Python.
@@ -177,18 +138,3 @@ Ce que vous allez apprendre
     Be able to use Python for data science and machine learning
     Build games like Blackjack, Pong and Snake using Python
     Build GUIs and Desktop applications with Python
-
-Y a-t-il des exigences ou prérequis pour ce cours ?
-
-    No programming experience needed - I'll teach you everything you need to know
-    A Mac or PC computer with access to the internet
-    No paid software required - I'll teach you how to use PyCharm, Jupyter Notebooks and Google Colab
-    I'll walk you through, step-by-step how to get all the software installed and set up
-
-À qui ce cours s'adresse-t-il ?
-
-    If you want to learn to code from scratch through building fun and useful projects, then take this course.
-    If you want to start your own startup by building your own websites and web apps.
-    If you are a complete beginner then this course will be everything you need to become a Python professional
-    If you are a seasoned programmer wanting to switch to Python then this is the quickest way. Learn through coding projects.
-    If you are an intermediate Python programmer then you know 100 days of code challenges will help you level up.
