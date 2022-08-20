@@ -21,5 +21,5 @@ class Racket(Turtle):
 
     def pong(self,ball) -> bool:
         # return True if racket bounce the ball
-        if self.distance(ball)<40 and (self.xcor()>330 or self.xcor()<-330):
+        if self.distance(ball)<45 and (ball.xcor()>340 or ball.xcor()<-340):
             return True
