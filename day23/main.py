@@ -27,11 +27,7 @@ turn=0
 while game_is_on:
     time.sleep(0.1)
     garage.move()
-    if turn==6:
-        garage.generateCars()
-        turn=0
-    else:
-        turn+=1
+    garage.generateCars()
     garage.clean()
     if player.win():
         score.update()
@@ -39,6 +35,7 @@ while game_is_on:
         player.reset()
     elif garage.hit(player):
         game_is_on=False
+        score.game_over()
     screen.update()
 
 screen.exitonclick()

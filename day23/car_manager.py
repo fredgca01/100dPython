@@ -10,7 +10,7 @@ MOVE_INCREMENT = 2
 class CarManager():
     def __init__(self) -> None:
         self.garage = []
-        self.current_step = STARTING_MOVE_DISTANCE
+        self.car_speed = STARTING_MOVE_DISTANCE
 
     def buildCar(self) -> Car:
         car = Car()
@@ -19,15 +19,15 @@ class CarManager():
         return car
     
     def generateCars(self) -> None:
-        for _ in range(randint(1,3)):
+        if randint(0,5)==1:
             self.garage.append(self.buildCar())
 
     def move(self):
         for car in self.garage:
-            car.forward(self.current_step)
+            car.forward(self.car_speed)
 
     def speedUp(self):
-        self.current_step+=MOVE_INCREMENT
+        self.car_speed+=MOVE_INCREMENT
 
     def clean(self):
         for car in self.garage:
