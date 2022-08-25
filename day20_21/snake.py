@@ -67,3 +67,9 @@ class Snake:
         self.main_turtle.hideturtle()
         self.main_turtle.home()
         self.main_turtle.write(text, align="center", font=("Arial", 12, "bold"))
+
+    def reset(self):
+        self.main_turtle.clear()
+        self.main_turtle.home()
+        self.snake = {}
+        self.snake[self.main_turtle.stamp()]=self.main_turtle.position()
