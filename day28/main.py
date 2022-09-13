@@ -1,6 +1,5 @@
 from tkinter import *
 import math
-from urllib import response
 
 # ---------------------------- CONSTANTS ------------------------------- #
 PINK = "#e2979c"
