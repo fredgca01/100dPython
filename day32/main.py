@@ -14,7 +14,7 @@ from random import randint
 # 4. Send the letter generated in step 3 to that person's email address.
 
 my_email="fredgca@gmail.com"
-password="hcskgsnrhmzioiff"
+password=""
 
 def send_email(to,body):
     with smtplib.SMTP(host="smtp.gmail.com",port=587) as connection:
