@@ -4,7 +4,7 @@ from datetime import date,timedelta
 import os
 
 STOCK = "TSLA"
-MY_EMAIL= "fredgca@gmail.com"
+MY_EMAIL= os.environ.get("MY_MAIL")
 MAIL_PWD= os.environ.get("MAIL_PWD")
 
 def send_email(to,subject, body):
