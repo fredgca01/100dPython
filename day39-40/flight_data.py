@@ -5,8 +5,10 @@ class FlightData:
     #This class is responsible for structuring the flight data.
     def __init__(self,flight) -> None:
         self.cityCodeTo = flight["cityCodeTo"]
-        self.flyFrom = flight["cityFrom"]
-        self.flyTo = flight["cityTo"]
+        self.flyFrom = flight["flyFrom"]
+        self.flyTo = flight["flyTo"]
+        self.cityFrom = flight["cityFrom"]
+        self.cityTo = flight["cityTo"]
         self.nightsNb = flight["nightsInDest"]
         self.price = flight["conversion"]["EUR"]
         if flight["availability"]["seats"] is None:
@@ -33,7 +35,8 @@ class FlightData:
         return self.cityCodeTo
     
     def printSummary(self)->str:
-        return f"{self.flyFrom} {self.flyTo} {self.price}€ {self.seats_available} seats remaining" 
+        len(self.routes)
+        return f"Low price ! from: {self.cityFrom}-{self.flyFrom} to: {self.cityTo}-{self.flyTo} for {self.price}€ {self.seats_available} seats remaining" 
     
     def printDetail(self)->str:
         detail = ""

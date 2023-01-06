@@ -15,7 +15,7 @@ class NotificationManager:
             connection.login(user=self.MY_EMAIL,password=self.MAIL_PWD)
             #connection.sendmail(from_addr=MY_EMAIL,to_addrs=to,msg=f"Subject:{subject}\n\n{body}")
             message = MIMEText(body)
-            message["To"]=self.MY_EMAIL
+            message["To"]=to
             message["From"]=self.MY_EMAIL
             message["Subject"]=subject
             connection.send_message(message)

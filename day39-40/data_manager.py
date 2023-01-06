@@ -43,8 +43,11 @@ class DataManager:
         }
         response = requests.get(url=TEQUILA_URL,params=location_param, headers=header_tequila)
         response.raise_for_status()
-        location =  response.json()["locations"]
-        return location[0]["code"]
+        if response.json()["results_retrieved"]>0:
+            location =  response.json()["locations"]
+            return location[0]["code"]
+        else: 
+            return ""
 
     def update_IATA(self,search,code) -> str:
         update_url=self.SHEETY_URL+"/"+str(search["id"])
