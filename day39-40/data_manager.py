@@ -2,63 +2,62 @@ import requests
 import os
 
 class DataManager:
-    #This class is responsible for talking to the Google Sheet.
+    # This class is responsible for talking to the Google Sheet.
     def __init__(self) -> None:
-        self.SHEETY_URL="https://api.sheety.co/1658c67683f7eb7e1940e0a85f25f886/copieDeFlightDeals/prices"
-        self.SHEETY_BEAR=os.getenv("SHEETY_BEAR")
-        self.header_sheety = {"Authorization": self.SHEETY_BEAR}
-        self.data=[]
-        self.init_IATAcode()
+        self.sheety_url = "https://api.sheety.co/1658c67683f7eb7e1940e0a85f25f886/copieDeFlightDeals/prices"
+        self.sheety_bear = os.getenv("SHEETY_BEAR")
+        self.header_sheety = {"Authorization": self.sheety_bear}
+        self.data = []
+        self.init_iata_code()
 
     def get_search_list(self) -> list:
-        iata={}
+        iata = {}
         for flight in self.data:
-            iata[flight["iataCode"]]=flight["lowestPrice"]
+            iata[flight["iataCode"]] = flight["lowestPrice"]
         return iata
-    
-    def get_lowest_price(self,flight_price, code) -> bool:
+
+    def get_lowest_price(self, flight_price, code) -> bool:
         for flight in self.data:
-            if flight["iataCode"]==code:
-                if int(flight["lowestPrice"])>=flight_price:
+            if flight["iataCode"] == code:
+                if int(flight["lowestPrice"]) >= flight_price:
                     return True
 
-    def init_IATAcode(self) -> None:
-        response = requests.get(url=self.SHEETY_URL,headers=self.header_sheety)
+    def init_iata_code(self) -> None:
+        response = requests.get(url=self.sheety_url, headers=self.header_sheety)
         response.raise_for_status()
         self.data = response.json()["prices"]
         for flight in self.data:
-            if flight["iataCode"]=="":
-                code = self.update_IATA(flight,self.retrieve_IATA(flight["city"]))
-                flight["iataCode"]=code
+            if flight["iataCode"] == "":
+                code = self.update_iata(flight, self.retrieve_iata(flight["city"]))
+                flight["iataCode"] = code
 
-    def retrieve_IATA(self,city) -> str:
-        TEQUILA_KEY=os.getenv("TEQUILA_KEY")
-        TEQUILA_URL="https://api.tequila.kiwi.com/locations/query"
-        header_tequila = {"apikey":TEQUILA_KEY}
+    def retrieve_iata(self, city) -> str:
+        tequila_key = os.getenv("TEQUILA_KEY")
+        tequila_url = "https://api.tequila.kiwi.com/locations/query"
+        header_tequila = {"apikey": tequila_key}
 
-        location_param={
-            "term":city,
-            "location_types":"city",
-            "limit":1
+        location_param = {
+            "term": city,
+            "location_types": "city",
+            "limit": 1
         }
-        response = requests.get(url=TEQUILA_URL,params=location_param, headers=header_tequila)
+        response = requests.get(url=tequila_url, params=location_param, headers=header_tequila)
         response.raise_for_status()
-        if response.json()["results_retrieved"]>0:
-            location =  response.json()["locations"]
+        if response.json()["results_retrieved"] > 0:
+            location = response.json()["locations"]
             return location[0]["code"]
-        else: 
+        else:
             return ""
 
-    def update_IATA(self,search,code) -> str:
-        update_url=self.SHEETY_URL+"/"+str(search["id"])
-        param={
+    def update_iata(self, search, code) -> str:
+        update_url = self.sheety_url + "/" + str(search["id"])
+        param = {
             "price": {
-                "city":search["city"],
-                "iataCode":code,
-                "lowestPrice":search["lowestPrice"]
+                "city": search["city"],
+                "iataCode": code,
+                "lowestPrice": search["lowestPrice"]
             }
         }
-        response = requests.put(url=update_url,json=param,headers=self.header_sheety)
+        response = requests.put(url=update_url, json=param, headers=self.header_sheety)
         response.raise_for_status()
         return code
-
