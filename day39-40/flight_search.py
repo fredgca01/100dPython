@@ -6,7 +6,7 @@ class FlightSearch:
     # This class is responsible for talking to the Flight Search API.
 
     def __init__(self) -> None:
-        self.tequila_key = os.getenv("TEQUILA_KEY")
+        self.tequila_key = os.environ.get("TEQUILA_KEY")
         self.tequila_url = "https://api.tequila.kiwi.com/v2/search"
 
     def search(
