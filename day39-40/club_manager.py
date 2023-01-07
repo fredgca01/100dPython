@@ -4,7 +4,7 @@ import os
 class ClubManager:
     def __init__(self) -> None:
         self.sheety_url = "https://api.sheety.co/1658c67683f7eb7e1940e0a85f25f886/copieDeFlightDeals/users"
-        self.sheety_bear = os.getenv("SHEETY_BEAR")
+        self.sheety_bear = os.environ.get("SHEETY_BEAR")
         self.header_sheety = {"Authorization": self.sheety_bear}
         self.data = []
 

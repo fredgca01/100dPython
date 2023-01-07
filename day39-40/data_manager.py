@@ -5,7 +5,7 @@ class DataManager:
     # This class is responsible for talking to the Google Sheet.
     def __init__(self) -> None:
         self.sheety_url = "https://api.sheety.co/1658c67683f7eb7e1940e0a85f25f886/copieDeFlightDeals/prices"
-        self.sheety_bear = os.getenv("SHEETY_BEAR")
+        self.sheety_bear = os.environ.get("SHEETY_BEAR")
         self.header_sheety = {"Authorization": self.sheety_bear}
         self.data = []
         self.init_iata_code()
@@ -32,7 +32,7 @@ class DataManager:
                 flight["iataCode"] = code
 
     def retrieve_iata(self, city) -> str:
-        tequila_key = os.getenv("TEQUILA_KEY")
+        tequila_key = os.environ.get("TEQUILA_KEY")
         tequila_url = "https://api.tequila.kiwi.com/locations/query"
         header_tequila = {"apikey": tequila_key}
 
