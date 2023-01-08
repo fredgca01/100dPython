@@ -42,11 +42,11 @@ else:
     weather_alert=""
     temp_feel=0
     nb_slots=0
-
+    tomorrow =date.today()+timedelta(days=1)
+        
     for weather_slot in data:
         slot_timestamp = float(weather_slot["dt"])
         slot_date = datetime.fromtimestamp(slot_timestamp)
-        tomorrow =date.today()+timedelta(days=1)
         if slot_date.date() != tomorrow:
             continue
         if (slot_date.time() >= time(7,0,0)) and (slot_date.time() <= time(18,0,0)):
@@ -55,16 +55,14 @@ else:
             temp_feel += float(detailled_temp.get("feels_like"))
             detailled_weather = weather_slot["weather"]
             weather_type = int(detailled_weather[0].get("id"))
-            icon_txt = detailled_weather[0].get("icon")
-            icon_url = "http://openweathermap.org/img/wn/"+icon_txt+"@2x.png"
             if weather_type>=500 and weather_type<521 and not raining:
-                weather_alert = f"Penses au parapluie: {icon_url}\n "
+                weather_alert = f"Penses au parapluie: ☔ \n "
                 raining=True
             elif weather_type>=200 and weather_type<300 and not raining:
-                weather_alert = f"Il vaudrait mieux ne pas sortir en fait, orage attendu ...{icon_url}\n"
+                weather_alert = f"Il vaudrait mieux ne pas sortir en fait, orage attendu ... ⛈ \n"
                 raining=True
             elif weather_type>=521 and weather_type<600 and not raining:
-                weather_alert = f"Il vaudrait mieux ne pas sortir en fait, ca va tomber dru ...{icon_url}\n "
+                weather_alert = f"Il vaudrait mieux ne pas sortir en fait, ca va tomber dru ... \n "
                 raining=True
 
     temp_feel=temp_feel/nb_slots
