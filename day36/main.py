@@ -6,17 +6,6 @@ import os
 STOCK = "TSLA"
 MY_EMAIL= os.environ.get("MY_MAIL")
 MAIL_PWD= os.environ.get("MAIL_PWD")
-
-def send_email(to,subject, body):
-    with smtplib.SMTP(host="smtp.gmail.com",port=587) as connection:
-        connection.starttls()
-        connection.login(user=MY_EMAIL,password=MAIL_PWD)
-        connection.sendmail(from_addr=MY_EMAIL,to_addrs=to,msg=f"Subject:{subject}\n\n{body}")
-
-
-
-## STEP 1: Use https://www.alphavantage.co
-# When STOCK price increase/decreases by 5% between yesterday and the day before yesterday then print("Get News").
 STOCK_API_KEY=os.environ.get("STOCK_API_KEY")
 NEWS_API_KEY=os.environ.get("NEWS_API_KEY")
 
@@ -26,6 +15,15 @@ PARAMS_STOCK = {
     "symbol":STOCK,
     "apikey":STOCK_API_KEY
 }
+
+def send_email(to,subject, body):
+    with smtplib.SMTP(host="smtp.gmail.com",port=587) as connection:
+        connection.starttls()
+        connection.login(user=MY_EMAIL,password=MAIL_PWD)
+        connection.sendmail(from_addr=MY_EMAIL,to_addrs=to,msg=f"Subject:{subject}\n\n{body}")
+
+## STEP 1: Use https://www.alphavantage.co
+# When STOCK price increase/decreases by 5% between yesterday and the day before yesterday then print("Get News").
 
 date = date.today()
 td = timedelta(1)
@@ -40,25 +38,26 @@ else:
     date_yesterday_2 = date_yesterday-td
 response = requests.get(url=URL_STOCK,params=PARAMS_STOCK)
 response.raise_for_status()
+stock_data = response.json()["Time Series (Daily)"]
 
 try:
-    close_1 = response.json()["Time Series (Daily)"][date_yesterday.isoformat()].get("4. close")
+    close_1 = stock_data[date_yesterday.isoformat()].get("4. close")
 except KeyError:
     date_yesterday = date_yesterday-td
     date_yesterday_2 = date_yesterday-td
-    close_1 = response.json()["Time Series (Daily)"][date_yesterday.isoformat()].get("4. close")
+    close_1 = stock_data[date_yesterday.isoformat()].get("4. close")
 try:    
-    close_2 = response.json()["Time Series (Daily)"][date_yesterday_2.isoformat()].get("4. close")
+    close_2 = stock_data[date_yesterday_2.isoformat()].get("4. close")
 except KeyError:
     date_yesterday_2=date_yesterday_2-td
-    close_2 = response.json()["Time Series (Daily)"][date_yesterday_2.isoformat()].get("4. close")
+    close_2 = stock_data[date_yesterday_2.isoformat()].get("4. close")
 
 close_1 = float(close_1)
 close_2 = float(close_2)
 print(close_1)
 print(close_2)
 ratio = ((close_1-close_2)/close_2)*100
-print(ratio)
+
 if abs(ratio)>3:
     ## STEP 2: Use https://newsapi.org
     # Instead of printing ("Get News"), actually get the first 3 news pieces for the COMPANY_NAME. 
