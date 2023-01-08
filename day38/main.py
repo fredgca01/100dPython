@@ -1,5 +1,6 @@
 import requests
 from datetime import datetime
+import time
 import os
 
 NUTRI_KEY=os.getenv("NUTRI_KEY")
@@ -23,11 +24,13 @@ exercize_param = {
 response = requests.post(url=NUTRI_URL,json=exercize_param,headers=headers)
 
 headers = {"Authorization": SHEETY_BEAR}
+timestamp = time.time()
+now = datetime.fromtimestamp(timestamp)
 for data in response.json()["exercises"] :
     data = {
         "workout": {
-            "date": datetime.now().strftime("%x"),
-            "time": datetime.now().strftime("%X"),
+            "date": now.strftime("%x"),
+            "time": now.strftime("%X"),
             "exercise": data["name"],
             "duration": data["duration_min"],
             "calories": data["nf_calories"]
