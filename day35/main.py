@@ -41,6 +41,7 @@ else:
     raining = False
     weather_alert=""
     temp_feel=0
+    wind=0
     nb_slots=0
     tomorrow =date.today()+timedelta(days=1)
         
@@ -53,18 +54,36 @@ else:
             nb_slots+=1
             detailled_temp = weather_slot["main"]
             temp_feel += float(detailled_temp.get("feels_like"))
+
+            wind_slot = weather_slot["wind"]
+            if float(wind_slot.get("speed")) > wind:
+                wind=float(wind_slot.get("speed"))
+            
             detailled_weather = weather_slot["weather"]
             weather_type = int(detailled_weather[0].get("id"))
-            if weather_type>=500 and weather_type<521 and not raining:
-                weather_alert = f"Penses au parapluie: ☔ \n "
-                raining=True
-            elif weather_type>=200 and weather_type<300 and not raining:
+            if weather_type>=200 and weather_type<300:
                 weather_alert = f"Il vaudrait mieux ne pas sortir en fait, orage attendu ... ⛈ \n"
                 raining=True
-            elif weather_type>=521 and weather_type<600 and not raining:
+            elif weather_type in (500,501,511,615,616) and not raining:
+                weather_alert = f"Penses au parapluie: ☔ \n "
+                raining=True
+            elif weather_type>=502 and weather_type<=520 and weather_type!=511:
+                weather_alert = f"Ca va tomber fort ... Penses au parapluie: ☔ \n "
+                raining=True
+            elif weather_type>=521 and weather_type<600:
                 weather_alert = f"Il vaudrait mieux ne pas sortir en fait, ca va tomber dru ... \n "
                 raining=True
-
+            elif weather_type>= 600 and weather_type<=613 and not raining:
+                weather_alert = f"Oooooh il va neiger ❄️ :)\n "
+                raining=True
+            elif weather_type>= 620 and weather_type<700:
+                weather_alert = f"Tempete de neige !! ❄️❄️❄️ \n "
+                raining=True
+            
+    # Modéré (10 à 40 km/h) Fort/venteux (41 à 60 km/h) Très fort/coups de vent (61 à 90 km/h) Très fort/force de tempête (plus de 91 km/h)
+    wind=wind*3.6
+    if wind>40:
+        weather_alert+=f"Ca va souffler: {round(wind,1)} km/h \n" 
     temp_feel=temp_feel/nb_slots
     weather_alert+=f"La temperature ressentie sera de: {round(temp_feel,1)}°"
     print(weather_alert)
