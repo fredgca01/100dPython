@@ -9,7 +9,7 @@ URL_LOC="http://api.openweathermap.org/geo/1.0/direct"
 URL_WEATHER = "https://api.openweathermap.org/data/2.5/forecast"
 MY_EMAIL= os.environ.get("MY_MAIL")
 MAIL_PWD= os.environ.get("MAIL_PWD")
-EMAILS=os.environ.get("EMAILS")
+EMAILS= os.environ.get("EMAILS")
 
 PARAMS_LOC = {
     "q":"Paris,FR",
@@ -56,8 +56,8 @@ else:
             temp_feel += float(detailled_temp.get("feels_like"))
 
             wind_slot = weather_slot["wind"]
-            if float(wind_slot.get("speed")) > wind:
-                wind=float(wind_slot.get("speed"))
+            if float(wind_slot.get("gust")) > wind:
+                wind=float(wind_slot.get("gust"))
             
             detailled_weather = weather_slot["weather"]
             weather_type = int(detailled_weather[0].get("id"))
@@ -65,7 +65,7 @@ else:
                 weather_alert = f"Il vaudrait mieux ne pas sortir en fait, orage attendu ... ⛈ \n"
                 raining=True
             elif weather_type in (500,501,511,615,616) and not raining:
-                weather_alert = f"Penses au parapluie: ☔ \n "
+                weather_alert = f"Pense au parapluie: ☔ \n "
                 raining=True
             elif weather_type>=502 and weather_type<=520 and weather_type!=511:
                 weather_alert = f"Ca va tomber fort ... Penses au parapluie: ☔ \n "
@@ -82,8 +82,9 @@ else:
             
     # Modéré (10 à 40 km/h) Fort/venteux (41 à 60 km/h) Très fort/coups de vent (61 à 90 km/h) Très fort/force de tempête (plus de 91 km/h)
     wind=wind*3.6
+    print(wind)
     if wind>40:
-        weather_alert+=f"Ca va souffler: {round(wind,1)} km/h \n" 
+        weather_alert+=f"Ca va souffler, rafales à: {round(wind,1)} km/h \n" 
     temp_feel=temp_feel/nb_slots
     weather_alert+=f"La temperature ressentie sera de: {round(temp_feel,1)}°"
     print(weather_alert)
@@ -99,4 +100,4 @@ else:
             message["Subject"]=subject
             connection.send_message(message)
 
-    send_email(EMAILS,"Meteo",weather_alert)
+    #send_email(EMAILS,"Meteo",weather_alert)
