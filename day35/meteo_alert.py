@@ -100,4 +100,4 @@ else:
             message["Subject"]=subject
             connection.send_message(message)
 
-    #send_email(EMAILS,"Meteo",weather_alert)
+    send_email(EMAILS,"Meteo",weather_alert)
