@@ -10,9 +10,10 @@ URL_WEATHER = "https://api.openweathermap.org/data/2.5/forecast"
 MY_EMAIL= os.environ.get("MY_MAIL")
 MAIL_PWD= os.environ.get("MAIL_PWD")
 EMAILS= os.environ.get("EMAILS")
+LOCATION= os.environ.get("LOCATION")
 
 PARAMS_LOC = {
-    "q":"Paris,FR",
+    "q":LOCATION+",FR",
     "limit":"1",
     "appid":API_KEY
 }
@@ -39,7 +40,7 @@ response = requests.get(url=URL_WEATHER, params=PARAMS_WEATHER)
 response.raise_for_status()
 data = response.json()["list"]
 raining = False
-weather_alert=""
+weather_alert="A "+LOCATION+"\n"
 temp_feel=0
 wind=0
 nb_slots=0
@@ -71,7 +72,7 @@ for weather_slot in data:
             weather_alert = f"Ca va tomber fort ... Penses au parapluie: ☔ \n "
             raining=True
         elif weather_type>=521 and weather_type<600:
-            weather_alert = f"Il vaudrait mieux ne pas sortir en fait, ca va tomber dru ... \n "
+            weather_alert = f"Il vaudrait mieux ne pas sortir en fait, ça va tomber dru ... \n "
             raining=True
         elif weather_type>= 600 and weather_type<=613 and not raining:
             weather_alert = f"Oooooh il va neiger ❄️ :)\n "
