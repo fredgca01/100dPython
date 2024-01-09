@@ -42,4 +42,4 @@ def send_email(to,subject, body):
         message["Subject"]=subject
         connection.send_message(message)
 
-#send_email(EMAILS,"Bus",metro_alert)
+send_email(EMAILS,"Bus",metro_alert)
