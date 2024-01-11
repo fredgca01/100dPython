@@ -24,6 +24,8 @@ lat = response.json()[0]["lat"]
 lon = response.json()[0]["lon"]
 
 # prevu pour s'executer à 19h00 et donner le tps du lendemain
+#https://openweathermap.org/current
+
 PARAMS_WEATHER = {
     "lat":lat,
     "lon":lon,
@@ -48,7 +50,8 @@ for weather_slot in data:
     slot_date = datetime.fromtimestamp(slot_timestamp)
     if slot_date.date() != tomorrow:
         continue
-    if (slot_date.time() >= time(8,0,0)) and (slot_date.time() <= time(18,0,0)):
+    if (slot_date.time() >= time(7,0,0)) and (slot_date.time() <= time(18,0,0)):
+        print(slot_date)
         nb_slots+=1
         detailled_temp = weather_slot["main"]
         temp_feel += float(detailled_temp.get("feels_like"))
@@ -81,8 +84,11 @@ for weather_slot in data:
 # Modéré (10 à 40 km/h) Fort/venteux (41 à 60 km/h) Très fort/coups de vent (61 à 90 km/h) Très fort/force de tempête (plus de 91 km/h)
 wind=wind*3.6 # m/s -> km/h
 print(wind)
-if wind>40:
+if wind>60:
+    weather_alert+=f"Tu vas t'envoler, rafales à: {round(wind,1)} km/h !!! \n"
+elif wind>40:
     weather_alert+=f"Ca va souffler, rafales à: {round(wind,1)} km/h \n" 
+
 temp_feel=temp_feel/nb_slots
 weather_alert+=f"La temperature ressentie sera de: {round(temp_feel,1)}°"
 print(weather_alert)
