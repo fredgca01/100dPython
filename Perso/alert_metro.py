@@ -18,6 +18,7 @@ PARAMS = {
     "apikey":API_KEY
 }
 
+#https://prim.iledefrance-mobilites.fr/fr/jeux-de-donnees/referentiel-des-lignes
 class Lines(Enum):
     M_2 = "C01372"
     RER_A = "C01742"
