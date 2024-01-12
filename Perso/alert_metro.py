@@ -22,7 +22,8 @@ PARAMS = {
 class Lines(Enum):
     M_2 = "C01372"
     RER_A = "C01742"
-    BUS_56 = "C01093"
+    BUS_46 = "C01087"
+    M_9 = "C01379"
 
 def send_email(to,subject, body):
     with smtplib.SMTP(host="smtp.gmail.com",port=587) as connection:
