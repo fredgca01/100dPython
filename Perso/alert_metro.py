@@ -4,12 +4,14 @@ from datetime import datetime, timedelta
 import smtplib
 from email.mime.text import MIMEText
 from enum import Enum
+import pytz
 
 MY_EMAIL= os.environ.get("MY_MAIL")
 MAIL_PWD= os.environ.get("MAIL_PWD")
 EMAILS= os.environ.get("EMAILS")
 API_KEY=os.environ.get("RATP_API_KEY")
 BUS_PARMENTIER="23636" #https://prim.iledefrance-mobilites.fr/fr/jeux-de-donnees/acces
+#https://prim.iledefrance-mobilites.fr/fr/apis/idfm-ivtr-requete_unitaire
 URL_NEXT="https://prim.iledefrance-mobilites.fr/marketplace/stop-monitoring?MonitoringRef=STIF:StopPoint:Q:"+BUS_PARMENTIER+":"
 URL_MSG_PREF="https://prim.iledefrance-mobilites.fr/marketplace/general-message?LineRef=STIF:Line::"
 URL_MSG_SUFF=":&InfoChannelRef=Perturbation"
@@ -49,17 +51,21 @@ for line in Lines:
         if(gmt_date_incident.day==datetime.now().day and gmt_date_validity.day<=datetime.now().day+1 ):
             content = message.get("Content").get("Message")[0].get("MessageText").get("value")
             metro_alert+=line.name+": "+content
-
-#looking for next bus
-#response = requests.get(url=URL_NEXT, headers=PARAMS)
-#response.raise_for_status()
-#metro_alert="Tes prochains bus sont à:\n"
-#data= response.json()["Siri"]["ServiceDelivery"]['StopMonitoringDelivery'][0]['MonitoredStopVisit']
-#for departure in data:
-#    gmt_date = datetime.strptime(departure.get("MonitoredVehicleJourney").get("MonitoredCall").get("ExpectedDepartureTime"), "%Y-%m-%dT%H:%M:%S.%fZ")
-#    metro_alert+=(datetime.strftime(gmt_date,"%H:%M"))
-#    metro_alert+="\n"
-#    print(metro_alert)
+            metro_alert+="\n"
+            metro_alert+="\n"
 
 if(len(metro_alert)>0):
+    #looking for next bus
+    response = requests.get(url=URL_NEXT, headers=PARAMS)
+    response.raise_for_status()
+    bus_stop="Tes prochains bus sont à:\n"
+    data= response.json()["Siri"]["ServiceDelivery"]['StopMonitoringDelivery'][0]['MonitoredStopVisit']
+    for departure in data:
+        gmt_date = datetime.strptime(departure.get("MonitoredVehicleJourney").get("MonitoredCall").get("ExpectedDepartureTime"), "%Y-%m-%dT%H:%M:%S.%fZ")
+        utc_date = gmt_date.replace(tzinfo=pytz.utc)
+        paris_date = utc_date.astimezone(pytz.timezone("Europe/Paris"))
+        bus_stop+=(datetime.strftime(paris_date,"%H:%M"))
+        bus_stop+="\n"
+    metro_alert+=bus_stop    
+    print(metro_alert)
     send_email(EMAILS,"Transports du matin",metro_alert)
