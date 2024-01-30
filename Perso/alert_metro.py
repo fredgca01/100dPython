@@ -37,6 +37,23 @@ def send_email(to,subject, body):
         message["Subject"]=subject
         connection.send_message(message)
 
+def next_bus()->str:
+    #looking for next bus
+    response = requests.get(url=URL_NEXT, headers=PARAMS)
+    response.raise_for_status()
+    bus_stop="Tes prochains bus sont à:\n"
+    data= response.json()["Siri"]["ServiceDelivery"]['StopMonitoringDelivery'][0]['MonitoredStopVisit']
+    for departure in data:
+        gmt_date = datetime.strptime(departure.get("MonitoredVehicleJourney").get("MonitoredCall").get("ExpectedDepartureTime"), "%Y-%m-%dT%H:%M:%S.%fZ")
+        print(gmt_date)
+        utc_date = gmt_date.replace(tzinfo=pytz.utc)
+        print(utc_date)
+        paris_date = utc_date.astimezone(pytz.timezone("Europe/Paris"))
+        print(paris_date)
+        bus_stop+=(datetime.strftime(paris_date,"%H:%M"))
+        bus_stop+="\n"
+    return bus_stop
+
 metro_alert=""
 #looking for incidents
 for line in Lines:
@@ -47,7 +64,6 @@ for line in Lines:
     for message in data: 
         gmt_date_incident = datetime.strptime(message.get("RecordedAtTime"), "%Y-%m-%dT%H:%M:%S.%fZ")
         gmt_date_validity = datetime.strptime(message.get("ValidUntilTime"), "%Y-%m-%dT%H:%M:%S.%fZ")
-        
         if(gmt_date_incident.day==datetime.now().day and gmt_date_validity.day<=datetime.now().day+1 ):
             content = message.get("Content").get("Message")[0].get("MessageText").get("value")
             metro_alert+=line.name+": "+content
@@ -55,17 +71,6 @@ for line in Lines:
             metro_alert+="\n"
 
 if(len(metro_alert)>0):
-    #looking for next bus
-    response = requests.get(url=URL_NEXT, headers=PARAMS)
-    response.raise_for_status()
-    bus_stop="Tes prochains bus sont à:\n"
-    data= response.json()["Siri"]["ServiceDelivery"]['StopMonitoringDelivery'][0]['MonitoredStopVisit']
-    for departure in data:
-        gmt_date = datetime.strptime(departure.get("MonitoredVehicleJourney").get("MonitoredCall").get("ExpectedDepartureTime"), "%Y-%m-%dT%H:%M:%S.%fZ")
-        utc_date = gmt_date.replace(tzinfo=pytz.utc)
-        paris_date = utc_date.astimezone(pytz.timezone("Europe/Paris"))
-        bus_stop+=(datetime.strftime(paris_date,"%H:%M"))
-        bus_stop+="\n"
-    metro_alert+=bus_stop    
+    metro_alert+=next_bus()  
     print(metro_alert)
     send_email(EMAILS,"Transports du matin",metro_alert)
