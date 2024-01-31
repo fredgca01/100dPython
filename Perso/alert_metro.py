@@ -1,6 +1,7 @@
 import requests
 import os
 from datetime import datetime, timedelta
+import time
 import smtplib
 from email.mime.text import MIMEText
 from enum import Enum
@@ -43,14 +44,27 @@ def next_bus()->str:
     response.raise_for_status()
     bus_stop="Tes prochains bus sont à:\n"
     data= response.json()["Siri"]["ServiceDelivery"]['StopMonitoringDelivery'][0]['MonitoredStopVisit']
+    
+    gmt_date_refresh = datetime.strptime(message.get("RecordedAtTime"), "%Y-%m-%dT%H:%M:%S.%fZ")
+    utc_date_refresh = gmt_date_refresh.replace(tzinfo=pytz.utc)
+    paris_date_refresh = utc_date_refresh.astimezone(pytz.timezone("Europe/Paris"))
+        
+    diff = abs(paris_date_refresh - datetime.now(pytz.timezone("Europe/Paris")))
+    two_minute=timedelta(minutes=2)
+    if diff>two_minute:
+        time.sleep(120)
+        #looking for next bus
+        response = requests.get(url=URL_NEXT, headers=PARAMS)
+        response.raise_for_status()
+        data= response.json()["Siri"]["ServiceDelivery"]['StopMonitoringDelivery'][0]['MonitoredStopVisit']    
+        gmt_date_refresh = datetime.strptime(message.get("RecordedAtTime"), "%Y-%m-%dT%H:%M:%S.%fZ")
+    
     for departure in data:
         gmt_date = datetime.strptime(departure.get("MonitoredVehicleJourney").get("MonitoredCall").get("ExpectedDepartureTime"), "%Y-%m-%dT%H:%M:%S.%fZ")
-        print(gmt_date)
         utc_date = gmt_date.replace(tzinfo=pytz.utc)
-        print(utc_date)
         paris_date = utc_date.astimezone(pytz.timezone("Europe/Paris"))
-        print(paris_date)
         bus_stop+=(datetime.strftime(paris_date,"%H:%M"))
+        bus_stop+=" "+departure.get("MonitoredVehicleJourney").get("MonitoredCall").get("DepartureStatus")
         bus_stop+="\n"
     return bus_stop
 
@@ -71,6 +85,8 @@ for line in Lines:
             metro_alert+="\n"
 
 if(len(metro_alert)>0):
-    metro_alert+=next_bus()  
+    send_email(EMAILS,"Alerte transports",metro_alert)
     print(metro_alert)
-    send_email(EMAILS,"Transports du matin",metro_alert)
+    bus_info=next_bus()
+    send_email(EMAILS,"Prochains bus",bus_info)
+    print(bus_info)
