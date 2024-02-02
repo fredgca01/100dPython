@@ -27,6 +27,7 @@ class Lines(Enum):
     RER_A = "C01742"
     BUS_46 = "C01087"
     M_9 = "C01379"
+    M_3 = "C01373"
 
 def send_email(to,subject, body):
     with smtplib.SMTP(host="smtp.gmail.com",port=587) as connection:
@@ -50,8 +51,8 @@ def next_bus()->str:
     paris_date_refresh = utc_date_refresh.astimezone(pytz.timezone("Europe/Paris"))
         
     diff = abs(paris_date_refresh - datetime.now(pytz.timezone("Europe/Paris")))
-    two_minute=timedelta(minutes=2)
-    if diff>two_minute:
+    one_minute=timedelta(minutes=1)
+    if diff>one_minute:
         time.sleep(120)
         #looking for next bus
         response = requests.get(url=URL_NEXT, headers=PARAMS)
